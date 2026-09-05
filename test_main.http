@@ -1,0 +1,107 @@
+@host = http://127.0.0.1:8000
+
+### Liveness
+GET {{host}}/health/live
+Accept: application/json
+
+### Readiness
+GET {{host}}/health/ready
+Accept: application/json
+
+### Create user
+POST {{host}}/users
+Content-Type: application/json
+
+{
+  "name": "ada",
+  "age": 36
+}
+
+### Create user with duplicate name -> 409
+POST {{host}}/users
+Content-Type: application/json
+
+{
+  "name": "ada",
+  "age": 41
+}
+
+### Create user with invalid payload -> 422
+POST {{host}}/users
+Content-Type: application/json
+
+{
+  "name": "",
+  "age": -1
+}
+
+### List users
+GET {{host}}/users?limit=10&offset=0
+Accept: application/json
+
+### Get user
+GET {{host}}/users/00000000-0000-0000-0000-000000000000
+Accept: application/json
+
+### Replace user
+PUT {{host}}/users/00000000-0000-0000-0000-000000000000
+Content-Type: application/json
+
+{
+  "name": "ada lovelace",
+  "age": 36
+}
+
+### Update user
+PATCH {{host}}/users/00000000-0000-0000-0000-000000000000
+Content-Type: application/json
+
+{
+  "age": 37
+}
+
+### Delete user
+DELETE {{host}}/users/00000000-0000-0000-0000-000000000000
+
+### Create log line
+POST {{host}}/logs
+Content-Type: application/json
+
+{
+  "host": "web-1",
+  "timestamp": "2026-09-01T10:00:00Z",
+  "method": "GET",
+  "return_status": "200",
+  "message": "request handled"
+}
+
+### Create log line with invalid method -> 422
+POST {{host}}/logs
+Content-Type: application/json
+
+{
+  "host": "web-1",
+  "method": "FETCH",
+  "return_status": "200",
+  "message": "request handled"
+}
+
+### List logs with filters
+GET {{host}}/logs?host=web-1&method=GET&return_status=200&limit=10
+Accept: application/json
+
+### List logs in a time range
+GET {{host}}/logs?since=2026-09-01T00:00:00Z&until=2026-09-30T23:59:59Z
+Accept: application/json
+
+### Get log line
+GET {{host}}/logs/00000000-0000-0000-0000-000000000000
+Accept: application/json
+
+### Search users by name prefix
+GET {{host}}/users?q=tym&limit=20
+Accept: application/json
+
+### Search users by prefix ignoring case and diacritics
+GET {{host}}/users?q=lukasz
+Accept: application/json
