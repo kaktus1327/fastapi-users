@@ -4,7 +4,7 @@ from typing import Annotated
 from fastapi import Depends, Query
 
 from app.core.config import Settings, get_settings
-from app.ports.user_repository import UserRepository
+from app.repositories.interface_users import UserRepository
 from app.repositories.log_memory import InMemoryLogRepository
 from app.repositories.memory import MemoryUserRepository
 from app.services.logs import LogService

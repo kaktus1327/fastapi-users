@@ -3,7 +3,7 @@ from uuid import UUID
 
 from app.core.text import fold
 from app.domain.models import User
-from app.ports.user_repository import UserRepository
+from app.repositories.interface_users import UserRepository
 
 
 def _key(user_id: UUID | str) -> UUID:

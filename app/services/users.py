@@ -6,7 +6,7 @@ from starlette.concurrency import run_in_threadpool
 from app.core.errors import NotFoundError
 from app.core.text import fold
 from app.domain.models import User, apply_changes, new_user_id
-from app.ports.user_repository import UserRepository
+from app.repositories.interface_users import UserRepository
 from app.schemas.user import UserCreate, UserUpdate
 
 READINESS_PROBE_ID = UUID("00000000-0000-0000-0000-000000000000")
